@@ -1,0 +1,22 @@
+{
+  "name": "purescript-react-basic-classic",
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lumihq/purescript-react-basic-classic.git"
+  },
+  "dependencies": {
+    "purescript-aff": "^5.1.2",
+    "purescript-nullable": "^4.1.1",
+    "purescript-react-basic": "v15.0.0",
+    "purescript-functions": "^4.0.0",
+    "purescript-effect": "^2.0.1",
+    "purescript-maybe": "^4.0.1"
+  }
+}
