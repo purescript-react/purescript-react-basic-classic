@@ -14,7 +14,7 @@
   "dependencies": {
     "purescript-aff": "^5.1.2",
     "purescript-nullable": "^4.1.1",
-    "purescript-react-basic": "v15.0.0",
+    "purescript-react-basic": "^15.0.0",
     "purescript-functions": "^4.0.0",
     "purescript-effect": "^2.0.1",
     "purescript-maybe": "^4.0.1"
