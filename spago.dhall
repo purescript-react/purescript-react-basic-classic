@@ -5,12 +5,11 @@ You can edit this file as you like.
 { name = "react-basic-classic"
 , dependencies =
   [ "aff"
-  , "console"
   , "effect"
   , "functions"
   , "maybe"
   , "nullable"
-  , "psci-support"
+  , "prelude"
   , "react-basic"
   ]
 , packages = ./packages.dhall
