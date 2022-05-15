@@ -1,8 +1,8 @@
 "use strict";
 
-var React = require("react");
+import React from "react";
 
-exports.createComponent = (function () {
+export function createComponent() {
   // Begin component prototype functions
   // (`this`-dependent, defined outside `createComponent`
   // for a slight performance boost)
@@ -95,22 +95,22 @@ exports.createComponent = (function () {
 
     return Component;
   };
-})();
+}
 
-exports.readProps = function (self) {
+export function readProps(self) {
   return function () {
     return self.instance_.props.$$props;
   };
-};
+}
 
-exports.readState = function (self) {
+export function readState(self) {
   return function () {
     var state = self.instance_.state;
     return state === null ? null : state.$$state;
   };
-};
+}
 
-exports.runUpdate_ = function (update, self, action) {
+export function runUpdate_(update, self, action) {
   var sideEffects = null;
   self.instance_.setState(
     function (s) {
@@ -132,9 +132,9 @@ exports.runUpdate_ = function (update, self, action) {
       }
     }
   );
-};
+}
 
-exports.make = function (_unionDict) {
+export function _make(_unionDict) {
   return function ($$type) {
     return function ($$spec) {
       var $$specPadded = {
@@ -154,17 +154,17 @@ exports.make = function (_unionDict) {
       };
     };
   };
-};
+}
 
-exports.displayNameFromComponent = function ($$type) {
+export function displayNameFromComponent($$type) {
   return $$type.displayName || "[unknown]";
-};
+}
 
-exports.displayNameFromSelf = function (self) {
+export function displayNameFromSelf(self) {
   return exports.displayNameFromComponent(self.instance_.constructor);
-};
+}
 
-exports.toReactComponent = function (_unionDict) {
+export function _toReactComponent(_unionDict) {
   return function (fromJSProps) {
     return function ($$type) {
       return function ($$spec) {
@@ -197,4 +197,4 @@ exports.toReactComponent = function (_unionDict) {
       };
     };
   };
-};
+}
