@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export function createComponent() {
+export const createComponent = (function() {
   // Begin component prototype functions
   // (`this`-dependent, defined outside `createComponent`
   // for a slight performance boost)
@@ -95,7 +95,7 @@ export function createComponent() {
 
     return Component;
   };
-}
+})();
 
 export function readProps(self) {
   return function () {
@@ -134,24 +134,22 @@ export function runUpdate_(update, self, action) {
   );
 }
 
-export function _make(_unionDict) {
-  return function ($$type) {
-    return function ($$spec) {
-      var $$specPadded = {
-        initialState: $$spec.initialState,
-        render: $$spec.render,
-        didMount: $$spec.didMount,
-        shouldUpdate: $$spec.shouldUpdate,
-        didUpdate: $$spec.didUpdate,
-        willUnmount: $$spec.willUnmount,
+export function _make($$type) {
+  return function ($$spec) {
+    var $$specPadded = {
+      initialState: $$spec.initialState,
+      render: $$spec.render,
+      didMount: $$spec.didMount,
+      shouldUpdate: $$spec.shouldUpdate,
+      didUpdate: $$spec.didUpdate,
+      willUnmount: $$spec.willUnmount,
+    };
+    return function ($$props) {
+      var props = {
+        $$props: $$props,
+        $$spec: $$specPadded,
       };
-      return function ($$props) {
-        var props = {
-          $$props: $$props,
-          $$spec: $$specPadded,
-        };
-        return React.createElement($$type, props);
-      };
+      return React.createElement($$type, props);
     };
   };
 }
@@ -164,37 +162,35 @@ export function displayNameFromSelf(self) {
   return exports.displayNameFromComponent(self.instance_.constructor);
 }
 
-export function _toReactComponent(_unionDict) {
-  return function (fromJSProps) {
-    return function ($$type) {
-      return function ($$spec) {
-        var $$specPadded = {
-          initialState: $$spec.initialState,
-          render: $$spec.render,
-          didMount: $$spec.didMount,
-          shouldUpdate: $$spec.shouldUpdate,
-          didUpdate: $$spec.didUpdate,
-          willUnmount: $$spec.willUnmount,
-        };
-
-        var Component = function constructor() {
-          return this;
-        };
-
-        Component.prototype = Object.create(React.Component.prototype);
-
-        Component.displayName = $$type.displayName + " (Wrapper)";
-
-        Component.prototype.render = function () {
-          var props = {
-            $$props: fromJSProps(this.props),
-            $$spec: $$specPadded,
-          };
-          return React.createElement($$type, props);
-        };
-
-        return Component;
+export function _toReactComponent(fromJSProps) {
+  return function ($$type) {
+    return function ($$spec) {
+      var $$specPadded = {
+        initialState: $$spec.initialState,
+        render: $$spec.render,
+        didMount: $$spec.didMount,
+        shouldUpdate: $$spec.shouldUpdate,
+        didUpdate: $$spec.didUpdate,
+        willUnmount: $$spec.willUnmount,
       };
+
+      var Component = function constructor() {
+        return this;
+      };
+
+      Component.prototype = Object.create(React.Component.prototype);
+
+      Component.displayName = $$type.displayName + " (Wrapper)";
+
+      Component.prototype.render = function () {
+        var props = {
+          $$props: fromJSProps(this.props),
+          $$spec: $$specPadded,
+        };
+        return React.createElement($$type, props);
+      };
+
+      return Component;
     };
   };
 }
