@@ -51,3 +51,6 @@ jobs:
 
       - name: Build the project
         run: npm run build
+
+      - name: Build examples
+        run: find examples -maxdepth 2 -type f -iname package.json -execdir "npm install && npm build" \;
