@@ -1,8 +1,8 @@
 "use strict";
 
-var React = require("react");
+import React from "react";
 
-exports.createComponent = (function () {
+export const createComponent = (function() {
   // Begin component prototype functions
   // (`this`-dependent, defined outside `createComponent`
   // for a slight performance boost)
@@ -97,20 +97,20 @@ exports.createComponent = (function () {
   };
 })();
 
-exports.readProps = function (self) {
+export function readProps(self) {
   return function () {
     return self.instance_.props.$$props;
   };
-};
+}
 
-exports.readState = function (self) {
+export function readState(self) {
   return function () {
     var state = self.instance_.state;
     return state === null ? null : state.$$state;
   };
-};
+}
 
-exports.runUpdate_ = function (update, self, action) {
+export function runUpdate_(update, self, action) {
   var sideEffects = null;
   self.instance_.setState(
     function (s) {
@@ -132,9 +132,37 @@ exports.runUpdate_ = function (update, self, action) {
       }
     }
   );
-};
+}
 
-exports.make = function (_unionDict) {
+export function _make($$type) {
+  return function ($$spec) {
+    var $$specPadded = {
+      initialState: $$spec.initialState,
+      render: $$spec.render,
+      didMount: $$spec.didMount,
+      shouldUpdate: $$spec.shouldUpdate,
+      didUpdate: $$spec.didUpdate,
+      willUnmount: $$spec.willUnmount,
+    };
+    return function ($$props) {
+      var props = {
+        $$props: $$props,
+        $$spec: $$specPadded,
+      };
+      return React.createElement($$type, props);
+    };
+  };
+}
+
+export function displayNameFromComponent($$type) {
+  return $$type.displayName || "[unknown]";
+}
+
+export function displayNameFromSelf(self) {
+  return exports.displayNameFromComponent(self.instance_.constructor);
+}
+
+export function _toReactComponent(fromJSProps) {
   return function ($$type) {
     return function ($$spec) {
       var $$specPadded = {
@@ -145,56 +173,24 @@ exports.make = function (_unionDict) {
         didUpdate: $$spec.didUpdate,
         willUnmount: $$spec.willUnmount,
       };
-      return function ($$props) {
+
+      var Component = function constructor() {
+        return this;
+      };
+
+      Component.prototype = Object.create(React.Component.prototype);
+
+      Component.displayName = $$type.displayName + " (Wrapper)";
+
+      Component.prototype.render = function () {
         var props = {
-          $$props: $$props,
+          $$props: fromJSProps(this.props),
           $$spec: $$specPadded,
         };
         return React.createElement($$type, props);
       };
+
+      return Component;
     };
   };
-};
-
-exports.displayNameFromComponent = function ($$type) {
-  return $$type.displayName || "[unknown]";
-};
-
-exports.displayNameFromSelf = function (self) {
-  return exports.displayNameFromComponent(self.instance_.constructor);
-};
-
-exports.toReactComponent = function (_unionDict) {
-  return function (fromJSProps) {
-    return function ($$type) {
-      return function ($$spec) {
-        var $$specPadded = {
-          initialState: $$spec.initialState,
-          render: $$spec.render,
-          didMount: $$spec.didMount,
-          shouldUpdate: $$spec.shouldUpdate,
-          didUpdate: $$spec.didUpdate,
-          willUnmount: $$spec.willUnmount,
-        };
-
-        var Component = function constructor() {
-          return this;
-        };
-
-        Component.prototype = Object.create(React.Component.prototype);
-
-        Component.displayName = $$type.displayName + " (Wrapper)";
-
-        Component.prototype.render = function () {
-          var props = {
-            $$props: fromJSProps(this.props),
-            $$spec: $$specPadded,
-          };
-          return React.createElement($$type, props);
-        };
-
-        return Component;
-      };
-    };
-  };
-};
+}

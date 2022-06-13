@@ -189,6 +189,12 @@ runUpdate ::
   Effect Unit
 runUpdate update = runEffectFn3 runUpdate_ (mkFn2 \self action -> buildStateUpdate (update self action))
 
+foreign import _make ::
+  forall spec props state.
+  Component props ->
+  { initialState :: state, render :: Self props state -> JSX | spec } ->
+  props ->
+  JSX
 -- | Turn a `Component` and `ComponentSpec` into a usable render function.
 -- | This is where you will want to provide customized implementations:
 -- |
@@ -213,13 +219,15 @@ runUpdate update = runEffectFn3 runUpdate_ (mkFn2 \self action -> buildStateUpda
 -- | ```
 -- |
 -- | __*See also:* `makeStateless`, `createComponent`, `Component`, `ComponentSpec`__
-foreign import make ::
+make ::
   forall spec spec_ props state.
   Union spec spec_ (ComponentSpec props state) =>
   Component props ->
   { initialState :: state, render :: Self props state -> JSX | spec } ->
   props ->
   JSX
+make = _make
+
 
 -- | Makes stateless component definition slightly less verbose:
 -- |
@@ -268,6 +276,13 @@ foreign import displayNameFromSelf ::
 -- | caution.
 foreign import data ReactComponentInstance :: Type -> Type -> Type
 
+foreign import _toReactComponent ::
+  forall spec jsProps props state.
+  ({ | jsProps } -> props) ->
+  Component props ->
+  { render :: Self props state -> JSX | spec } ->
+  ReactComponent { | jsProps }
+
 -- | Convert a React-Basic `ComponentSpec` to a JavaScript-friendly React component.
 -- | This function should only be used for JS interop and not normal React-Basic usage.
 -- |
@@ -277,13 +292,14 @@ foreign import data ReactComponentInstance :: Type -> Type -> Type
 -- |   and applying any type classes to the `props`.__
 -- |
 -- | __*See also:* `ReactComponent`__
-foreign import toReactComponent ::
+toReactComponent ::
   forall spec spec_ jsProps props state.
   Union spec spec_ (ComponentSpec props state) =>
   ({ | jsProps } -> props) ->
   Component props ->
   { render :: Self props state -> JSX | spec } ->
   ReactComponent { | jsProps }
+toReactComponent = _toReactComponent
 
 -- |
 -- | Internal utility or FFI functions
