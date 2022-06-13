@@ -1,16 +1,14 @@
-{ name = "ComponentsInputReactHooks"
-, dependencies =
-  [ "effect"
-  , "exceptions"
-  , "maybe"
-  , "prelude"
-  , "psci-support"
-  , "react-basic"
-  , "react-basic-classic"
-  , "react-basic-dom"
-  , "web-dom"
-  , "web-html"
-  ]
-, packages = ./packages.dhall
-, sources = [ "src/**/*.purs" ]
+let conf = ../../spago.dhall
+
+in conf // {
+  sources = conf.sources # [ "src/**/*.purs", "../../src/**/*.purs" ],
+  dependencies = conf.dependencies #
+   [ "effect"
+   , "exceptions"
+   , "maybe"
+   , "prelude"
+   , "react-basic-dom"
+   , "web-dom"
+   , "web-html"
+   ]
 }
