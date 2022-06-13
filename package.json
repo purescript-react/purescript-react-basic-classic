@@ -22,7 +22,7 @@
     "spago": "^0.20.9"
   },
   "dependencies": {
-    "react": "^18.1.0"
+    "react": "^17.0.1"
   },
   "scripts": {
     "deps": "run-s deps:*",
