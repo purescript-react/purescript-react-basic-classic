@@ -19,7 +19,7 @@
         "purescript-functions": "^v6.0.0",
         "purescript-maybe": "^v6.0.0",
         "purescript-nullable": "^v6.0.0",
-        "purescript-prelude": "^6.0.0",
+        "purescript-prelude": "^v6.0.0",
         "purescript-react-basic": "^v17.0.0"
     }
 }
